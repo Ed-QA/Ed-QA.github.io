@@ -255,6 +255,7 @@
 
     #what-i-use {
       --stack-split-x: 50%;
+      --stack-split-y: 50%;
       isolation: isolate;
       overflow: hidden;
     }
@@ -294,6 +295,32 @@
       filter: saturate(0.74) contrast(0.98);
     }
 
+    #how-i-work {
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    #how-i-work::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        linear-gradient(180deg, rgba(9, 12, 17, 0.72), rgba(9, 12, 17, 0.86)),
+        var(--stack-right-image);
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      opacity: 0.2;
+      filter: saturate(0.92) contrast(1.04);
+      pointer-events: none;
+    }
+
+    body[data-theme="light"] #how-i-work::before {
+      opacity: 0.14;
+      filter: saturate(0.72) contrast(0.96);
+    }
+
     .tools-inner,
     .footer-inner {
       position: relative;
@@ -309,6 +336,20 @@
       font-weight: 850;
       letter-spacing: 0.12em;
       text-transform: none;
+    }
+
+    .footer-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-logo {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      border-radius: 2px;
+      box-shadow: 0 6px 16px var(--neutral-shadow);
     }
 
     .tools-section h2,
@@ -1121,6 +1162,7 @@
       .header-nav {
         gap: 8px;
         justify-content: center;
+        width: 100%;
       }
 
       .brand-logo {
@@ -1129,6 +1171,8 @@
       }
 
       .brand-mark {
+        flex: 1 1 100%;
+        justify-content: center;
         gap: 10px;
       }
 
@@ -1144,9 +1188,37 @@
 
       .nav-button,
       .contact-button {
+        flex: 1 1 calc(50% - 8px);
+        max-width: calc(50% - 4px);
         min-height: 38px;
         padding: 0 12px;
         font-size: 0.82rem;
+      }
+
+      .footer-actions {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .contact-button::after {
+        display: none;
+      }
+
+      .tool-tooltip {
+        left: 12px !important;
+        right: 12px;
+        top: auto !important;
+        bottom: 76px;
+        width: auto;
+        max-height: 34vh;
+        overflow: auto;
+        transform: translate3d(0, 10px, 0) scale(0.98);
+        transition: opacity 0.16s ease, transform 0.16s ease;
+        pointer-events: none;
+      }
+
+      .tool-tooltip.is-visible {
+        transform: translate3d(0, 0, 0) scale(1);
       }
 
       .theme-toggle {
@@ -1159,31 +1231,47 @@
         grid-template-columns: 1fr;
       }
 
+      #what-i-use::before {
+        background-image:
+          linear-gradient(180deg, rgba(8, 9, 12, 0.58), rgba(8, 9, 12, 0.3)),
+          var(--stack-left-image);
+        clip-path: inset(0 0 calc(100% - var(--stack-split-y)) 0);
+      }
+
+      #what-i-use::after {
+        background-image:
+          linear-gradient(0deg, rgba(8, 12, 18, 0.58), rgba(8, 12, 18, 0.28)),
+          var(--stack-right-image);
+        clip-path: inset(var(--stack-split-y) 0 0 0);
+      }
+
       .skills-grid,
       .tools-grid {
         grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
       }
 
       #how-i-work .tools-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: clamp(6px, 1.6vw, 10px);
+        align-items: stretch;
       }
 
       #how-i-work .work-card {
         min-height: clamp(118px, 24vw, 148px);
         padding: clamp(7px, 1.8vw, 10px);
+        min-width: 0;
       }
 
       #how-i-work .work-card h3 {
         margin-bottom: 6px;
-        font-size: clamp(0.58rem, 2.2vw, 0.74rem);
-        line-height: 1.16;
+        font-size: clamp(0.84rem, 0.9vw, 1rem);
+        line-height: 1.24;
         overflow-wrap: anywhere;
       }
 
       #how-i-work .work-card p {
-        font-size: clamp(0.54rem, 2vw, 0.66rem);
-        line-height: 1.34;
+        font-size: 0.92rem;
+        line-height: 1.5;
         overflow-wrap: anywhere;
       }
 
@@ -1352,7 +1440,8 @@
 
     @media (max-width: 520px) {
       #how-i-work .tools-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 5px;
       }
 
       #how-i-work .work-card {
@@ -1360,14 +1449,6 @@
         padding: 6px;
       }
 
-      #how-i-work .work-card h3 {
-        font-size: clamp(0.5rem, 2.7vw, 0.62rem);
-      }
-
-      #how-i-work .work-card p {
-        font-size: clamp(0.48rem, 2.45vw, 0.58rem);
-        line-height: 1.28;
-      }
     }
 </style>
 </head>
@@ -1505,7 +1586,7 @@
 
   <footer class="site-footer" id="contact" aria-label="Contact links">
     <div class="footer-inner">
-      <p class="section-kicker"><span id="current-year">2026</span> Eduard Shestopalov software QA engineer</p>
+      <p class="section-kicker footer-kicker"><img class="footer-logo" src="logo1.webp" onerror="this.onerror=null; this.src='logo1.png';" alt="" aria-hidden="true"><span><span id="current-year">2026</span> Eduard Shestopalov software QA engineer</span></p>
       <div class="footer-actions">
         <a class="contact-button light-reactive" href="mailto:shedwardio@gmail.com" target="_blank" rel="noopener noreferrer" data-popup="Send email to shedwardio@gmail.com" aria-label="Email Eduard Shestopalov">
           <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1674,6 +1755,20 @@
       hero.style.setProperty("--divider-y", `${dividerY.toFixed(3)}%`);
     }
 
+    function setMobileStackSplitFromScroll() {
+      if (!mobileQuery.matches) {
+        return;
+      }
+
+      const rect = whatIUse.getBoundingClientRect();
+      const viewportCenter = window.innerHeight / 2;
+      const progress = clamp((viewportCenter - rect.top) / rect.height, 0, 1);
+      const splitY = 100 - progress * 100;
+
+      whatIUse.style.setProperty("--stack-split-x", "50%");
+      whatIUse.style.setProperty("--stack-split-y", `${splitY.toFixed(3)}%`);
+    }
+
     function setMode(event) {
       if (mobileQuery.matches) {
         hero.classList.remove("manual-active", "automation-active");
@@ -1704,10 +1799,14 @@
 
     setDividerImmediate(getInitialDivider());
     setMobileDividerFromScroll();
+    setMobileStackSplitFromScroll();
     hero.addEventListener("mousemove", setMode);
     hero.addEventListener("mouseleave", resetMode);
     mobileQuery.addEventListener("change", resetMode);
-    window.addEventListener("scroll", setMobileDividerFromScroll, { passive: true });
+    window.addEventListener("scroll", () => {
+      setMobileDividerFromScroll();
+      setMobileStackSplitFromScroll();
+    }, { passive: true });
     window.addEventListener("resize", resetMode);
 
     function animateStackSplit() {
@@ -1741,7 +1840,7 @@
 
     whatIUse.addEventListener("mousemove", (event) => {
       if (mobileQuery.matches) {
-        resetStackSplit();
+        setMobileStackSplitFromScroll();
         return;
       }
 
@@ -1751,7 +1850,10 @@
     });
 
     whatIUse.addEventListener("mouseleave", resetStackSplit);
-    mobileQuery.addEventListener("change", resetStackSplit);
+    mobileQuery.addEventListener("change", () => {
+      resetStackSplit();
+      setMobileStackSplitFromScroll();
+    });
 
     function updateBackToTop() {
       const headerBottom = header.getBoundingClientRect().bottom;
@@ -1817,6 +1919,27 @@
       }, 12);
     }
 
+    function showTooltip(card, instant = false) {
+      tooltip.classList.add("is-visible");
+      tooltip.classList.toggle("is-skill-tooltip", card.classList.contains("skill-card"));
+      placeTooltip(card);
+
+      if (instant) {
+        clearInterval(tooltipTimer);
+        tooltip.textContent = card.dataset.tooltip || "";
+        placeTooltip(card);
+        return;
+      }
+
+      typeTooltip(card.dataset.tooltip || "");
+    }
+
+    function hideTooltip() {
+      clearInterval(tooltipTimer);
+      tooltip.classList.remove("is-visible");
+      tooltip.classList.remove("is-skill-tooltip");
+    }
+
     function placeTooltip(card) {
       const rect = card.getBoundingClientRect();
       const margin = 14;
@@ -1836,20 +1959,31 @@
 
     document.querySelectorAll(".skill-card, .tool-card").forEach((card) => {
       card.addEventListener("mouseenter", () => {
-        tooltip.classList.add("is-visible");
-        tooltip.classList.toggle("is-skill-tooltip", card.classList.contains("skill-card"));
-        placeTooltip(card);
-        typeTooltip(card.dataset.tooltip || "");
+        showTooltip(card, mobileQuery.matches);
       });
 
-      card.addEventListener("mousemove", () => placeTooltip(card));
+      card.addEventListener("mousemove", () => {
+        if (!mobileQuery.matches) {
+          placeTooltip(card);
+        }
+      });
+
+      card.addEventListener("click", () => {
+        showTooltip(card, true);
+      });
 
       card.addEventListener("mouseleave", () => {
-        clearInterval(tooltipTimer);
-        tooltip.classList.remove("is-visible");
-        tooltip.classList.remove("is-skill-tooltip");
+        if (!mobileQuery.matches) {
+          hideTooltip();
+        }
       });
     });
+
+    window.addEventListener("scroll", () => {
+      if (mobileQuery.matches) {
+        hideTooltip();
+      }
+    }, { passive: true });
 
     const stackCards = document.querySelectorAll("#what-i-use .skill-card, #what-i-use .tool-card");
     let equalizeTimer = null;
