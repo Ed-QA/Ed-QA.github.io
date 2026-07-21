@@ -1,0 +1,1934 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QA split hero</title>
+  <style>
+    :root {
+      --bg: #06080c;
+      --manual-bg: #17110b;
+      --manual-accent: #d0a15f;
+      --manual-soft: rgba(208, 161, 95, 0.16);
+      --auto-bg: #07111f;
+      --auto-accent: #32d6ff;
+      --auto-soft: rgba(50, 214, 255, 0.18);
+      --text: #f4f7fb;
+      --muted: #b3bdc9;
+      --divider: #65e8ff;
+      --ease: all 0.5s ease-in-out;
+      --divider-x: 50.5%;
+      --divider-y: 50%;
+      --hero-photo-w: clamp(280px, 26vw, 400px);
+      --hero-photo-h: calc(var(--hero-photo-w) * 1.25);
+      --hero-text-w: clamp(240px, 24vw, 390px);
+      --hero-title-size: clamp(1.55rem, 2.35vw, 2.9rem);
+      --hero-copy-size: clamp(0.74rem, 0.72vw, 0.9rem);
+      --hero-gap: clamp(16px, 3vw, 58px);
+      --surface-bg: linear-gradient(180deg, rgba(15, 18, 24, 0.96), rgba(9, 12, 17, 0.98));
+      --surface-border: rgba(255, 255, 255, 0.09);
+      --surface-text: #eef3f8;
+      --surface-title: #f5f8fb;
+      --surface-muted: rgba(231, 238, 245, 0.76);
+      --surface-kicker: #8bdff0;
+      --button-bg: rgba(255, 255, 255, 0.055);
+      --button-text: #eef3f8;
+      --button-border: rgba(221, 229, 238, 0.18);
+      --button-hover-bg: rgba(122, 217, 239, 0.12);
+      --button-hover-border: rgba(122, 217, 239, 0.44);
+      --card-bg: rgba(255, 255, 255, 0.045);
+      --card-border: rgba(255, 255, 255, 0.11);
+      --card-title: #ffffff;
+      --tooltip-bg: rgba(12, 17, 24, 0.96);
+      --tooltip-text: #edf8fb;
+      --tooltip-border: rgba(122, 217, 239, 0.34);
+      --neutral-shadow: rgba(0, 0, 0, 0.42);
+      --neutral-glow: rgba(122, 217, 239, 0.14);
+      --stack-left-image: url("left.png");
+      --stack-right-image: url("right.png");
+    }
+
+    body[data-theme="light"] {
+      --bg: #efe8dc;
+      --surface-bg:
+        radial-gradient(circle at 12% 0%, rgba(255, 255, 255, 0.92), transparent 34%),
+        radial-gradient(circle at 84% 12%, rgba(214, 199, 174, 0.42), transparent 38%),
+        linear-gradient(145deg, #f8f3e9 0%, #e9dfcf 48%, #d8c9b3 100%);
+      --surface-border: rgba(98, 80, 55, 0.18);
+      --surface-text: #1d2329;
+      --surface-title: #151a20;
+      --surface-muted: rgba(36, 43, 50, 0.72);
+      --surface-kicker: #6b5431;
+      --button-bg:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.62), rgba(223, 211, 190, 0.52)),
+        rgba(239, 232, 220, 0.78);
+      --button-text: #1b232a;
+      --button-border: rgba(94, 76, 51, 0.22);
+      --button-hover-bg:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.86), rgba(213, 226, 226, 0.64)),
+        rgba(237, 229, 215, 0.94);
+      --button-hover-border: rgba(57, 129, 145, 0.34);
+      --card-bg:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.54), rgba(224, 214, 196, 0.42)),
+        rgba(242, 235, 224, 0.82);
+      --card-border: rgba(94, 76, 51, 0.16);
+      --card-title: #172027;
+      --tooltip-bg:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(229, 219, 200, 0.98));
+      --tooltip-text: #182027;
+      --tooltip-border: rgba(72, 136, 151, 0.28);
+      --neutral-shadow: rgba(67, 54, 36, 0.24);
+      --neutral-glow: rgba(52, 132, 150, 0.16);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family:
+        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    html {
+      overflow-x: hidden;
+    }
+
+    .site-header,
+    .tools-section,
+    .site-footer {
+      position: relative;
+      z-index: 20;
+      background: var(--surface-bg);
+      color: var(--surface-text);
+      font-family:
+        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      transition: background 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+    }
+
+    .site-header {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px clamp(78px, 8vw, 112px) 14px 22px;
+      border-bottom: 1px solid var(--surface-border);
+      box-shadow: 0 12px 32px var(--neutral-shadow);
+    }
+
+    .header-nav {
+      width: min(1120px, 100%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand-logo {
+      width: 86px;
+      height: 86px;
+      object-fit: contain;
+      object-position: center;
+      border-radius: 4px;
+      background: var(--button-bg);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
+      cursor: pointer;
+      transition: box-shadow 0.18s ease, transform 0.18s ease;
+    }
+
+    .brand-logo:focus-visible {
+      outline: 2px solid rgba(101, 232, 255, 0.85);
+      outline-offset: 5px;
+    }
+
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      flex: 0 0 auto;
+    }
+
+    .brand-title {
+      color: var(--surface-kicker);
+      background: none;
+      -webkit-text-fill-color: currentColor;
+      font-size: clamp(0.98rem, 1.3vw, 1.18rem);
+      font-weight: 850;
+      line-height: 1.1;
+      white-space: nowrap;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.14), 0 10px 24px rgba(0, 0, 0, 0.24);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .nav-button,
+    .theme-toggle,
+    .contact-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 42px;
+      padding: 0 18px;
+      border: 1px solid var(--button-border);
+      border-radius: 7px;
+      color: var(--button-text);
+      background: var(--button-bg);
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 750;
+      line-height: 1;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.24);
+      transition: background 0.22s ease, border-color 0.22s ease, transform 0.22s ease, box-shadow 0.18s ease, color 0.22s ease;
+    }
+
+    .nav-button:hover,
+    .theme-toggle:hover,
+    .contact-button:hover {
+      border-color: var(--button-hover-border);
+      background: var(--button-hover-bg);
+      transform: translateY(-1px);
+    }
+
+    .theme-toggle {
+      position: absolute;
+      right: clamp(16px, 3vw, 34px);
+      top: 50%;
+      z-index: 2;
+      width: 42px;
+      height: 42px;
+      padding: 0;
+      cursor: pointer;
+      transform: translateY(-50%);
+    }
+
+    .theme-toggle:hover {
+      transform: translateY(calc(-50% - 1px));
+    }
+
+    .theme-toggle svg {
+      width: 19px;
+      height: 19px;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+    }
+
+    .theme-toggle .moon-icon {
+      display: none;
+    }
+
+    body[data-theme="light"] .theme-toggle .sun-icon {
+      display: none;
+    }
+
+    body[data-theme="light"] .theme-toggle .moon-icon {
+      display: block;
+    }
+
+    .qa-hero {
+      scroll-margin-top: 0;
+    }
+
+    .tools-section {
+      padding: clamp(36px, 5vw, 64px) clamp(20px, 5vw, 72px) clamp(64px, 7vw, 100px);
+      border-top: 1px solid var(--surface-border);
+      border-bottom: 1px solid var(--surface-border);
+    }
+
+    #what-i-use {
+      --stack-split-x: 50%;
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    #what-i-use::before,
+    #what-i-use::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      opacity: 0.22;
+      filter: saturate(0.9) contrast(1.08);
+      transition: opacity 0.35s ease, filter 0.35s ease;
+      pointer-events: none;
+    }
+
+    #what-i-use::before {
+      background-image:
+        linear-gradient(90deg, rgba(8, 9, 12, 0.58), rgba(8, 9, 12, 0.3)),
+        var(--stack-left-image);
+      clip-path: inset(0 calc(100% - var(--stack-split-x)) 0 0);
+    }
+
+    #what-i-use::after {
+      background-image:
+        linear-gradient(270deg, rgba(8, 12, 18, 0.58), rgba(8, 12, 18, 0.28)),
+        var(--stack-right-image);
+      clip-path: inset(0 0 0 var(--stack-split-x));
+    }
+
+    body[data-theme="light"] #what-i-use::before,
+    body[data-theme="light"] #what-i-use::after {
+      opacity: 0.16;
+      filter: saturate(0.74) contrast(0.98);
+    }
+
+    .tools-inner,
+    .footer-inner {
+      position: relative;
+      z-index: 2;
+      width: min(1280px, 100%);
+      margin: 0 auto;
+    }
+
+    .section-kicker {
+      margin: 0 0 10px;
+      color: var(--surface-kicker);
+      font-size: 0.78rem;
+      font-weight: 850;
+      letter-spacing: 0.12em;
+      text-transform: none;
+    }
+
+    .tools-section h2,
+    .site-footer h2 {
+      margin: 0;
+      color: var(--surface-title);
+      font-size: clamp(1.55rem, 2.45vw, 2.7rem);
+      line-height: 1.05;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow-wrap: normal;
+    }
+
+    .stack-panels {
+      display: grid;
+      grid-template-columns: minmax(0, 52fr) minmax(0, 48fr);
+      gap: 18px;
+      margin-top: 22px;
+      align-items: start;
+    }
+
+    .tools-inner > h2 + .tools-grid {
+      margin-top: 22px;
+    }
+
+    .stack-panel {
+      min-width: 0;
+    }
+
+    .stack-panel h3 {
+      margin: 0 0 12px;
+      color: var(--surface-title);
+      font-size: clamp(0.92rem, 1vw, 1.02rem);
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .skills-grid,
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr));
+      gap: 12px;
+      transition: grid-template-columns 0.28s ease, gap 0.28s ease;
+    }
+
+    #how-i-work .tools-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    #how-i-work .work-card {
+      min-height: 104px;
+      opacity: 1;
+      pointer-events: auto;
+      transform: none;
+      transition: opacity 0.28s ease, transform 0.28s ease, border-color 0.22s ease, background 0.22s ease;
+    }
+
+    .skill-card,
+    .tool-card {
+      position: relative;
+      min-height: 104px;
+      padding: 16px;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      background: var(--card-bg);
+      cursor: default;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+    }
+
+    .skill-card {
+      border-color: rgba(208, 161, 95, 0.16);
+    }
+
+    .skill-card:hover,
+    .tool-card:hover {
+      border-color: var(--button-hover-border);
+      background: var(--button-hover-bg);
+      transform: translateY(-2px);
+    }
+
+    .skill-card:hover {
+      border-color: rgba(208, 161, 95, 0.38);
+      background: rgba(208, 161, 95, 0.075);
+    }
+
+    #what-i-use .skill-card:hover,
+    #what-i-use .tool-card:hover {
+      background: var(--tooltip-bg);
+    }
+
+    .skill-card h4,
+    .tool-card h3 {
+      margin: 0 0 9px;
+      color: var(--card-title);
+      font-size: clamp(0.84rem, 0.9vw, 1rem);
+      line-height: 1.24;
+      white-space: normal;
+      overflow: visible;
+      text-wrap: balance;
+    }
+
+    .skill-card p,
+    .tool-card p {
+      margin: 0;
+      color: var(--surface-muted);
+      font-size: 0.92rem;
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    .tool-tooltip {
+      position: fixed;
+      z-index: 60;
+      width: min(360px, calc(100vw - 28px));
+      min-height: 36px;
+      max-height: 170px;
+      padding: 12px 14px;
+      border: 1px solid var(--tooltip-border);
+      border-radius: 8px;
+      color: var(--tooltip-text);
+      background: var(--tooltip-bg);
+      box-shadow: 0 22px 58px var(--neutral-shadow), 0 0 28px var(--neutral-glow);
+      font-size: 0.86rem;
+      line-height: 1.45;
+      pointer-events: none;
+      opacity: 0;
+      transform: translate3d(-50%, 10px, 0) scale(0.84);
+      transform-origin: top center;
+      transition: opacity 0.16s ease, transform 0.18s ease, min-height 0.18s ease;
+      overflow: hidden;
+    }
+
+    .tool-tooltip.is-visible {
+      opacity: 1;
+      transform: translate3d(-50%, 0, 0) scale(1);
+    }
+
+    .tool-tooltip.is-skill-tooltip {
+      border-color: rgba(208, 161, 95, 0.48);
+      box-shadow: 0 22px 58px var(--neutral-shadow), 0 0 28px rgba(208, 161, 95, 0.16);
+    }
+
+    .back-to-top {
+      position: fixed;
+      right: clamp(16px, 3vw, 34px);
+      bottom: clamp(16px, 3vw, 34px);
+      z-index: 70;
+      width: 46px;
+      height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--tooltip-border);
+      border-radius: 8px;
+      color: var(--button-text);
+      background: var(--button-bg);
+      box-shadow: 0 18px 46px var(--neutral-shadow), 0 0 22px var(--neutral-glow);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px);
+      transition: opacity 0.22s ease, transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+      cursor: pointer;
+    }
+
+    .back-to-top.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .back-to-top:hover,
+    .back-to-top:focus-visible {
+      border-color: var(--button-hover-border);
+      background: var(--button-hover-bg);
+      outline: none;
+    }
+
+    .back-to-top svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .logo-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      display: grid;
+      place-items: center;
+      padding: 22px;
+      background: rgba(3, 6, 10, 0.56);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
+    }
+
+    .logo-modal.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .logo-modal-card {
+      width: min(560px, 100%);
+      padding: clamp(22px, 4vw, 34px);
+      border: 1px solid var(--surface-border);
+      border-radius: 8px;
+      color: var(--surface-text);
+      background: var(--surface-bg);
+      box-shadow: 0 28px 78px var(--neutral-shadow), 0 0 34px var(--neutral-glow);
+      transform: translateY(12px) scale(0.97);
+      transition: transform 0.22s ease;
+    }
+
+    .logo-modal.is-open .logo-modal-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .logo-modal-card h2 {
+      margin: 0 0 14px;
+      color: var(--surface-title);
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      line-height: 1.1;
+      text-align: center;
+      text-wrap: balance;
+    }
+
+    .logo-modal-card p {
+      margin: 0;
+      color: var(--surface-muted);
+      font-size: clamp(0.96rem, 1.4vw, 1.08rem);
+      line-height: 1.6;
+      text-align: justify;
+    }
+
+    .logo-modal-close {
+      display: block;
+      margin: 20px auto 0;
+      min-height: 40px;
+      padding: 0 18px;
+      border: 1px solid var(--button-border);
+      border-radius: 7px;
+      color: var(--button-text);
+      background: var(--button-bg);
+      font: inherit;
+      font-weight: 750;
+      cursor: pointer;
+      transition: background 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
+    }
+
+    .logo-modal-close:hover,
+    .logo-modal-close:focus-visible {
+      border-color: var(--button-hover-border);
+      background: var(--button-hover-bg);
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .site-footer {
+      padding: 18px clamp(20px, 5vw, 72px);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 0;
+    }
+
+    .contact-button svg {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+    }
+
+    .contact-button {
+      position: relative;
+    }
+
+    .contact-button::after {
+      content: attr(data-popup);
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 10px);
+      width: max-content;
+      max-width: 195px;
+      padding: 8px 10px;
+      border: 1px solid var(--tooltip-border);
+      border-radius: 7px;
+      color: var(--tooltip-text);
+      background: var(--tooltip-bg);
+      box-shadow: 0 18px 42px var(--neutral-shadow);
+      font-size: 0.78rem;
+      line-height: 1.3;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 6px);
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+
+    .contact-button:hover::after {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .qa-hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) var(--hero-photo-w) minmax(0, 1fr);
+      column-gap: var(--hero-gap);
+      align-items: center;
+      width: 100%;
+      min-height: 0;
+      padding-block: clamp(12px, 2vh, 24px);
+      padding-inline: clamp(20px, 4vw, 72px);
+      isolation: isolate;
+      overflow-x: clip;
+      overflow-y: visible;
+      background: var(--bg);
+    }
+
+    .qa-hero::before,
+    .qa-hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      transition: none;
+    }
+
+    .qa-hero::before {
+      background:
+        radial-gradient(circle at 21% 28%, rgba(210, 172, 105, 0.2), transparent 30%),
+        radial-gradient(circle at 35% 70%, rgba(110, 78, 38, 0.28), transparent 32%),
+        radial-gradient(circle at 18% 21%, transparent 0 24px, rgba(190, 142, 73, 0.12) 25px 27px, transparent 28px 41px, rgba(190, 142, 73, 0.08) 42px 44px, transparent 45px),
+        radial-gradient(circle at 72% 76%, transparent 0 32px, rgba(190, 142, 73, 0.1) 33px 35px, transparent 36px 55px, rgba(190, 142, 73, 0.07) 56px 58px, transparent 59px),
+        repeating-linear-gradient(-22deg, rgba(208, 161, 95, 0.08) 0 1px, transparent 1px 15px),
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(135deg, rgba(51, 35, 16, 0.96), rgba(13, 10, 7, 0.98));
+      background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, auto, 42px 42px, 42px 42px, 100% 100%;
+      clip-path: inset(0 calc(100% - var(--divider-x)) 0 0);
+    }
+
+    .qa-hero::after {
+      background:
+        radial-gradient(circle at 78% 30%, rgba(50, 214, 255, 0.22), transparent 30%),
+        linear-gradient(90deg, transparent 0 11%, rgba(76, 225, 255, 0.12) 11.3% 11.6%, transparent 12% 24%, rgba(76, 225, 255, 0.1) 24.2% 24.45%, transparent 24.8%),
+        linear-gradient(0deg, transparent 0 18%, rgba(76, 225, 255, 0.1) 18.2% 18.5%, transparent 19% 38%, rgba(76, 225, 255, 0.08) 38.2% 38.45%, transparent 39%),
+        repeating-linear-gradient(90deg, transparent 0 42px, rgba(50, 214, 255, 0.09) 42px 43px, transparent 43px 80px),
+        repeating-linear-gradient(0deg, transparent 0 26px, rgba(90, 235, 255, 0.14) 26px 27px),
+        linear-gradient(225deg, rgba(8, 34, 62, 0.96), rgba(3, 8, 15, 0.98));
+      clip-path: inset(0 0 0 var(--divider-x));
+    }
+
+    .side {
+      position: relative;
+      z-index: 2;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      padding: 0;
+      transition: var(--ease);
+      overflow: visible;
+    }
+
+    .side::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.84;
+      transition: var(--ease);
+      display: none;
+    }
+
+    .side-left {
+      grid-column: 1;
+      justify-content: flex-end;
+      font-family: Georgia, "Times New Roman", Times, serif;
+      background: transparent;
+    }
+
+    .side-left::before {
+      background:
+        radial-gradient(circle at 18% 21%, transparent 0 24px, rgba(190, 142, 73, 0.12) 25px 27px, transparent 28px 41px, rgba(190, 142, 73, 0.08) 42px 44px, transparent 45px),
+        radial-gradient(circle at 72% 76%, transparent 0 32px, rgba(190, 142, 73, 0.1) 33px 35px, transparent 36px 55px, rgba(190, 142, 73, 0.07) 56px 58px, transparent 59px),
+        repeating-linear-gradient(
+          -22deg,
+          rgba(208, 161, 95, 0.08) 0 1px,
+          transparent 1px 15px
+        );
+    }
+
+    .side-left::after {
+      content: "";
+      position: absolute;
+      inset: -12%;
+      background:
+        radial-gradient(ellipse at 20% 60%, rgba(238, 218, 181, 0.16), transparent 30%),
+        radial-gradient(ellipse at 46% 26%, rgba(238, 218, 181, 0.1), transparent 25%),
+        radial-gradient(ellipse at 68% 72%, rgba(238, 218, 181, 0.08), transparent 28%);
+      filter: blur(22px);
+      opacity: 0.58;
+      animation: manualSteam 11s ease-in-out infinite alternate;
+      transition: var(--ease);
+      display: none;
+    }
+
+    .side-right {
+      grid-column: 3;
+      justify-content: flex-start;
+      text-align: left;
+      font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: transparent;
+    }
+
+    .side-right::before {
+      background:
+        linear-gradient(90deg, transparent 0 11%, rgba(76, 225, 255, 0.12) 11.3% 11.6%, transparent 12% 24%, rgba(76, 225, 255, 0.1) 24.2% 24.45%, transparent 24.8%),
+        linear-gradient(0deg, transparent 0 18%, rgba(76, 225, 255, 0.1) 18.2% 18.5%, transparent 19% 38%, rgba(76, 225, 255, 0.08) 38.2% 38.45%, transparent 39%),
+        repeating-linear-gradient(
+          90deg,
+          transparent 0 42px,
+          rgba(50, 214, 255, 0.09) 42px 43px,
+          transparent 43px 80px
+        );
+    }
+
+    .side-right::after {
+      content: "";
+      position: absolute;
+      inset: auto 6% 0 auto;
+      width: 54%;
+      height: 58%;
+      opacity: 0.42;
+      background:
+        linear-gradient(180deg, transparent 0 18%, rgba(50, 214, 255, 0.18) 18% 19%, transparent 19%),
+        repeating-linear-gradient(90deg, rgba(31, 156, 202, 0.18) 0 2px, transparent 2px 34px),
+        repeating-linear-gradient(0deg, transparent 0 26px, rgba(90, 235, 255, 0.14) 26px 27px);
+      clip-path: polygon(4% 100%, 4% 30%, 18% 30%, 18% 12%, 36% 12%, 36% 42%, 52% 42%, 52% 22%, 72% 22%, 72% 7%, 92% 7%, 92% 100%);
+      filter: drop-shadow(0 0 22px rgba(50, 214, 255, 0.28));
+      transition: var(--ease);
+      display: none;
+    }
+
+    .content {
+      position: relative;
+      z-index: 3;
+      width: var(--hero-text-w);
+      min-height: var(--hero-photo-h);
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: clamp(12px, 1.25vw, 18px);
+      opacity: 0.72;
+      transform: translateX(0);
+      transition: var(--ease);
+      overflow: visible;
+    }
+
+    .side-left .content {
+      margin-right: 0;
+    }
+
+    .side-right .content {
+      margin-left: 0;
+      align-items: flex-start;
+    }
+
+    .eyebrow {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.77rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: none;
+    }
+
+    h1,
+    h2 {
+      margin: 0;
+      font-size: var(--hero-title-size);
+      line-height: 1.06;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .side-left h1 {
+      color: #ffe1ad;
+      text-shadow: 0 0 24px rgba(208, 161, 95, 0.22);
+      font-weight: 700;
+    }
+
+    .side-right h2 {
+      color: #dffaff;
+      text-shadow: 0 0 28px rgba(50, 214, 255, 0.38);
+      font-weight: 850;
+    }
+
+    .summary {
+      margin: 0;
+      max-width: 34rem;
+      display: grid;
+      gap: clamp(6px, 0.6vw, 9px);
+      color: rgba(230, 236, 244, 0.88);
+      font-size: var(--hero-copy-size);
+      line-height: 1.36;
+      text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
+    }
+
+    .summary span {
+      display: block;
+    }
+
+    .summary strong {
+      display: block;
+      margin-bottom: 2px;
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    .skill-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .side-right .skill-grid {
+      justify-content: flex-end;
+    }
+
+    .skill-grid li {
+      padding: 9px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+      color: rgba(244, 247, 251, 0.9);
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(10px);
+      font-size: 0.86rem;
+      line-height: 1;
+      white-space: nowrap;
+      transition: var(--ease);
+    }
+
+    .side-left .skill-grid li {
+      box-shadow: inset 0 0 0 1px rgba(208, 161, 95, 0.08);
+    }
+
+    .side-right .skill-grid li {
+      box-shadow: inset 0 0 0 1px rgba(50, 214, 255, 0.08);
+    }
+
+    .photo-wrap {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .photo-wrap::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 12;
+      width: var(--hero-photo-w);
+      height: var(--hero-photo-h);
+      transform: translate(-50%, -50%);
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .photo-wrap::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 4;
+      width: var(--hero-photo-w);
+      height: var(--hero-photo-h);
+      transform: translate(-50%, -50%);
+      border-radius: 18px;
+      box-shadow:
+        0 34px 90px rgba(0, 0, 0, 0.64),
+        0 0 0 1px rgba(255, 255, 255, 0.12);
+      transition: var(--ease);
+    }
+
+    .photo-clip {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      transition: none;
+    }
+
+    .photo-clip-manual {
+      clip-path: inset(0 calc(100% - var(--divider-x)) 0 0);
+    }
+
+    .photo-clip-auto {
+      clip-path: inset(0 0 0 var(--divider-x));
+    }
+
+    .photo-layer {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: var(--hero-photo-w);
+      height: var(--hero-photo-h);
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      object-position: center;
+      transition: var(--ease);
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .photo-manual {
+      filter: sepia(0.24) contrast(1.08) saturate(0.95);
+    }
+
+    .photo-auto {
+      filter: contrast(1.06) saturate(1.12);
+    }
+
+    .center-divider {
+      position: absolute;
+      top: -7vh;
+      left: var(--divider-x);
+      z-index: 8;
+      width: 5px;
+      height: 114vh;
+      transform: translateX(-50%);
+      border-radius: 999px;
+      background:
+        linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.1),
+          #effdff 18%,
+          var(--divider) 50%,
+          #effdff 82%,
+          rgba(255, 255, 255, 0.1)
+        );
+      box-shadow:
+        0 0 7px rgba(101, 232, 255, 0.95),
+        0 0 18px rgba(101, 232, 255, 0.9),
+        0 0 42px rgba(101, 232, 255, 0.62),
+        0 0 86px rgba(101, 232, 255, 0.36);
+      transition: opacity 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+    }
+
+    .center-divider::before,
+    .center-divider::after {
+      content: "";
+      position: absolute;
+      top: -10%;
+      bottom: -10%;
+      width: 44px;
+      opacity: 0.7;
+      filter: blur(10px);
+      background:
+        radial-gradient(ellipse at 50% 7%, rgba(237, 253, 255, 0.56), transparent 20%),
+        radial-gradient(ellipse at 42% 21%, rgba(101, 232, 255, 0.42), transparent 18%),
+        radial-gradient(ellipse at 58% 37%, rgba(237, 253, 255, 0.34), transparent 20%),
+        radial-gradient(ellipse at 44% 56%, rgba(101, 232, 255, 0.38), transparent 18%),
+        radial-gradient(ellipse at 55% 76%, rgba(237, 253, 255, 0.32), transparent 20%),
+        radial-gradient(ellipse at 48% 94%, rgba(101, 232, 255, 0.34), transparent 18%);
+      mix-blend-mode: screen;
+      animation: dividerSteam 3.8s ease-in-out infinite;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .center-divider::before {
+      right: -4px;
+    }
+
+    .center-divider::after {
+      left: -4px;
+      animation-delay: -1.9s;
+    }
+
+    @keyframes dividerSteam {
+      0% {
+        transform: translateY(28px) translateX(-5px) scaleX(0.72);
+        opacity: 0.38;
+      }
+
+      45% {
+        transform: translateY(-8px) translateX(5px) scaleX(1.08);
+        opacity: 0.76;
+      }
+
+      100% {
+        transform: translateY(-42px) translateX(-3px) scaleX(0.82);
+        opacity: 0.4;
+      }
+    }
+
+    @keyframes manualSteam {
+      from {
+        transform: translate3d(-2%, 2%, 0) scale(1);
+      }
+
+      to {
+        transform: translate3d(3%, -3%, 0) scale(1.05);
+      }
+    }
+
+    .manual-active .side-left {
+      flex-basis: 62%;
+    }
+
+    .manual-active .side-left .content,
+    .automation-active .side-right .content {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .manual-active .side-right .content {
+      opacity: 0.16;
+      transform: translateX(34px);
+    }
+
+    .automation-active .side-left .content {
+      opacity: 0.16;
+      transform: translateX(-34px);
+    }
+
+    .manual-active .photo-manual {
+      opacity: 1;
+    }
+
+    .manual-active .photo-auto {
+      opacity: 1;
+    }
+
+    .automation-active .photo-auto {
+      opacity: 1;
+    }
+
+    .automation-active .photo-manual {
+      opacity: 1;
+    }
+
+    .manual-active .photo-wrap::before {
+      box-shadow:
+        0 34px 90px rgba(0, 0, 0, 0.66),
+        0 0 0 1px rgba(208, 161, 95, 0.35),
+        0 0 46px rgba(208, 161, 95, 0.2);
+    }
+
+    .automation-active .photo-wrap::before {
+      box-shadow:
+        0 34px 90px rgba(0, 0, 0, 0.66),
+        0 0 0 1px rgba(101, 232, 255, 0.42),
+        0 0 54px rgba(101, 232, 255, 0.26);
+    }
+
+    .manual-active .side-left .skill-grid li {
+      border-color: rgba(208, 161, 95, 0.45);
+      background: rgba(208, 161, 95, 0.12);
+    }
+
+    .automation-active .side-right .skill-grid li {
+      border-color: rgba(101, 232, 255, 0.5);
+      background: rgba(50, 214, 255, 0.12);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .qa-hero.manual-active {
+        grid-template-columns: minmax(0, 1fr) var(--hero-photo-w) minmax(0, 1fr);
+      }
+
+      .qa-hero.automation-active {
+        grid-template-columns: minmax(0, 1fr) var(--hero-photo-w) minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        overflow: auto;
+      }
+
+      .site-header {
+        padding: 12px 62px 12px 12px;
+      }
+
+      .tools-section h2,
+      .site-footer h2 {
+        font-size: clamp(1.42rem, 7.2vw, 2.1rem);
+        line-height: 1.12;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        text-wrap: balance;
+      }
+
+      .header-nav {
+        gap: 8px;
+        justify-content: center;
+      }
+
+      .brand-logo {
+        width: 64px;
+        height: 64px;
+      }
+
+      .brand-mark {
+        gap: 10px;
+      }
+
+      .brand-title {
+        font-size: 0.94rem;
+      }
+
+      .nav-links {
+        justify-content: center;
+        gap: 8px;
+        flex: 1 1 100%;
+      }
+
+      .nav-button,
+      .contact-button {
+        min-height: 38px;
+        padding: 0 12px;
+        font-size: 0.82rem;
+      }
+
+      .theme-toggle {
+        width: 38px;
+        height: 38px;
+        padding: 0;
+      }
+
+      .stack-panels {
+        grid-template-columns: 1fr;
+      }
+
+      .skills-grid,
+      .tools-grid {
+        grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+      }
+
+      #how-i-work .tools-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: clamp(6px, 1.6vw, 10px);
+      }
+
+      #how-i-work .work-card {
+        min-height: clamp(118px, 24vw, 148px);
+        padding: clamp(7px, 1.8vw, 10px);
+      }
+
+      #how-i-work .work-card h3 {
+        margin-bottom: 6px;
+        font-size: clamp(0.58rem, 2.2vw, 0.74rem);
+        line-height: 1.16;
+        overflow-wrap: anywhere;
+      }
+
+      #how-i-work .work-card p {
+        font-size: clamp(0.54rem, 2vw, 0.66rem);
+        line-height: 1.34;
+        overflow-wrap: anywhere;
+      }
+
+      .skill-card,
+      .tool-card {
+        min-height: 92px;
+        padding: 13px;
+      }
+
+      .footer-inner {
+        justify-content: center;
+        text-align: center;
+      }
+
+      .qa-hero,
+      .qa-hero.manual-active,
+      .qa-hero.automation-active {
+        --hero-photo-w: min(72vw, 340px);
+        --hero-photo-h: calc(var(--hero-photo-w) * 1.25);
+        --hero-text-w: min(92vw, 430px);
+        --hero-title-size: clamp(1.6rem, 8vw, 2.55rem);
+        --hero-copy-size: clamp(0.78rem, 3.2vw, 0.9rem);
+        display: flex;
+        flex-direction: column;
+        grid-template-columns: none;
+        column-gap: 0;
+        min-height: 180vh;
+        padding-inline: 0;
+      }
+
+      .qa-hero::before {
+        clip-path: inset(0 0 calc(100% - var(--divider-y)) 0);
+      }
+
+      .qa-hero::after {
+        clip-path: inset(var(--divider-y) 0 0 0);
+      }
+
+      .side {
+        min-height: auto;
+        align-items: center;
+        padding: 28px 18px;
+        overflow: visible;
+      }
+
+      .side-left {
+        order: 1;
+        justify-content: center;
+        text-align: left;
+      }
+
+      .side-right {
+        order: 3;
+        justify-content: center;
+        text-align: left;
+      }
+
+      .content,
+      .manual-active .side-left .content,
+      .automation-active .side-right .content,
+      .manual-active .side-right .content,
+      .automation-active .side-left .content {
+        width: var(--hero-text-w);
+        max-width: 100%;
+        min-height: auto;
+        max-height: none;
+        margin: 0;
+        gap: 12px;
+        opacity: 1;
+        transform: none;
+      }
+
+      .side-right .content {
+        align-items: flex-start;
+      }
+
+      .eyebrow {
+        font-size: 0.62rem;
+        letter-spacing: 0.08em;
+      }
+
+      h1,
+      h2 {
+        font-size: var(--hero-title-size);
+        line-height: 1.06;
+        overflow-wrap: anywhere;
+      }
+
+      .summary {
+        display: grid;
+        gap: 8px;
+        font-size: var(--hero-copy-size);
+        line-height: 1.38;
+      }
+
+      .skill-grid {
+        gap: 7px;
+      }
+
+      .side-right .skill-grid {
+        justify-content: flex-end;
+      }
+
+      .skill-grid li {
+        padding: 7px 8px;
+        font-size: clamp(0.66rem, 2.6vw, 0.82rem);
+        white-space: normal;
+        max-width: 100%;
+      }
+
+      .photo-wrap {
+        order: 2;
+        position: sticky;
+        top: 22vh;
+        inset: auto;
+        width: 100%;
+        height: var(--hero-photo-h);
+        z-index: 6;
+      }
+
+      .photo-wrap::before,
+      .photo-layer {
+        top: 50%;
+        width: var(--hero-photo-w);
+        height: var(--hero-photo-h);
+      }
+
+      .photo-wrap::before {
+        border-radius: 14px;
+      }
+
+      .photo-clip-manual {
+        clip-path: inset(0 0 calc(100% - var(--divider-y)) 0);
+      }
+
+      .photo-clip-auto {
+        clip-path: inset(var(--divider-y) 0 0 0);
+      }
+
+      .center-divider {
+        position: absolute;
+        top: var(--divider-y);
+        left: 50%;
+        width: var(--hero-photo-w);
+        height: 4px;
+        transform: translate(-50%, -50%);
+        background:
+          linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.1),
+            #effdff 18%,
+            var(--divider) 50%,
+            #effdff 82%,
+            rgba(255, 255, 255, 0.1)
+          );
+      }
+
+      .center-divider::before,
+      .center-divider::after {
+        top: -34px;
+        bottom: auto;
+        width: 100%;
+        height: 72px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      #how-i-work .tools-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      #how-i-work .work-card {
+        min-height: clamp(108px, 28vw, 132px);
+        padding: 6px;
+      }
+
+      #how-i-work .work-card h3 {
+        font-size: clamp(0.5rem, 2.7vw, 0.62rem);
+      }
+
+      #how-i-work .work-card p {
+        font-size: clamp(0.48rem, 2.45vw, 0.58rem);
+        line-height: 1.28;
+      }
+    }
+</style>
+</head>
+<body>
+  <header class="site-header" aria-label="Page navigation">
+    <nav class="header-nav">
+      <div class="brand-mark">
+        <img class="brand-logo light-reactive" src="logo1.webp" onerror="this.onerror=null; this.src='logo1.png';" alt="Eduard Shestopalov QA logo" role="button" tabindex="0" aria-label="Open welcome message">
+        <span class="brand-title">Shestopalov Eduard SQA</span>
+      </div>
+      <div class="nav-links">
+        <a class="nav-button light-reactive" href="#point-of-view">my point of view</a>
+        <a class="nav-button light-reactive" href="#what-i-use">what I use</a>
+        <a class="nav-button light-reactive" href="#how-i-work">how I work</a>
+        <a class="nav-button light-reactive" href="#contact">contact</a>
+      </div>
+    </nav>
+    <button class="theme-toggle light-reactive" type="button" aria-label="Switch to light theme" aria-pressed="false">
+      <svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+      </svg>
+      <svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20.99 12.79A8.5 8.5 0 1 1 11.21 3a6.8 6.8 0 0 0 9.78 9.79z"/>
+      </svg>
+    </button>
+  </header>
+
+  <button class="back-to-top" type="button" aria-label="Scroll to top">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m18 15-6-6-6 6"/>
+    </svg>
+  </button>
+
+  <main class="qa-hero" id="point-of-view" aria-label="Classic Manual QA and Modern Automation AI QA split hero">
+    <section class="side side-left" aria-label="Classic Manual QA">
+      <div class="content">
+        <h1>Traditional testing life cycle</h1>
+        <p class="summary">
+          <span><strong>Requirement analysis:</strong> Reviewing product specifications to identify testable features and map requirements.</span>
+          <span><strong>Test planning:</strong> Defining the testing strategy, timelines, resources, risks and project boundaries.</span>
+          <span><strong>Test case development:</strong> Writing detailed scenarios and preparing the required test data.</span>
+          <span><strong>Environment setup:</strong> Preparing hardware, software, and network conditions to mirror production.</span>
+          <span><strong>Test execution:</strong> Manually running test cases, logging defects, and verifying fixed bugs.</span>
+          <span><strong>Test cycle closure:</strong> Reviewing metrics, checking exit criteria, and delivering the sign-off report.</span>
+          <span><strong>Quality mindset:</strong> Calm, methodical testing keeps risk visible, decisions grounded and releases controlled.</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="side side-right" aria-label="Modern Automation and AI QA">
+      <div class="content">
+        <h2>Automated testing integration</h2>
+        <p class="summary">
+          <span><strong>Pipeline integration:</strong> Embedding automated suites into CI/CD workflows for fast code validation.</span>
+          <span><strong>Framework architecture:</strong> Building reusable libraries, fixtures, and page objects for scalable execution.</span>
+          <span><strong>Script development &amp; AI generation:</strong> Writing test scripts and using AI to accelerate coverage and edge-case discovery.</span>
+          <span><strong>Cloud infrastructure orchestration:</strong> Provisioning containers and browser matrices for parallel test runs.</span>
+          <span><strong>Automated execution &amp; analysis:</strong> Running large suites, triaging failures, and generating real-time dashboards.</span>
+          <span><strong>Continuous monitoring &amp; feedback:</strong> Analyzing telemetry and production signals to keep regression coverage relevant.</span>
+        </p>
+      </div>
+    </section>
+
+    <div class="photo-wrap" aria-hidden="true">
+      <div class="photo-clip photo-clip-manual">
+        <img class="photo-layer photo-manual" src="image_1.webp" onerror="this.onerror=null; this.src='image_1.png';" alt="">
+      </div>
+      <div class="photo-clip photo-clip-auto">
+        <img class="photo-layer photo-auto" src="image_2.webp" onerror="this.onerror=null; this.src='image_2.png';" alt="">
+      </div>
+      <div class="center-divider" aria-hidden="true"></div>
+    </div>
+  </main>
+
+  <section class="tools-section" id="what-i-use" aria-label="QA tools and technologies">
+    <div class="tools-inner">
+      <p class="section-kicker">What I use</p>
+      <h2>QA stack across automation, data, diagnostics and delivery</h2>
+      <div class="stack-panels">
+        <div class="stack-panel">
+          <h3>Skills I bring</h3>
+          <div class="skills-grid">
+            <article class="skill-card" data-tooltip="Test documentation keeps QA work traceable and reusable. It includes test cases, checklists, regression matrices, release reports, defect reports and knowledge-sharing materials."><h4>Test documentation</h4><p>Cases, checklists, matrices, reports, defects and traceability.</p></article>
+            <article class="skill-card" data-tooltip="Exploratory testing uses investigation, product knowledge and risk awareness instead of only scripted steps. It helps find unclear logic, edge cases and real user problems that formal cases often miss."><h4>Exploratory testing</h4><p>Risk-driven discovery, unclear logic, edge cases and usability issues.</p></article>
+            <article class="skill-card" data-tooltip="Functional testing checks whether features behave according to requirements and business expectations. In QA work it is the base layer for validating user flows, acceptance criteria, edge cases and release readiness."><h4>Functional testing</h4><p>Feature behavior, acceptance criteria, user flows and expected results.</p></article>
+            <article class="skill-card" data-tooltip="UI and UX review checks whether the interface is clear, consistent, accessible and aligned with expected behavior. In QA it helps catch confusing flows, visual defects, layout issues and friction before release."><h4>UI / UX review</h4><p>Interface quality, layout issues, usability gaps and design comparison.</p></article>
+            <article class="skill-card" data-tooltip="Cross-browser and compatibility testing validates behavior across browsers, operating systems, devices and screen sizes. It is important when users can access the same product from different environments."><h4>Cross-browser compatibility</h4><p>Browser, OS, device, screen-size and environment coverage.</p></article>
+            <article class="skill-card" data-tooltip="API testing validates service behavior below the UI. It is relevant for checking payloads, status codes, contracts, authentication, business rules, error handling and integration points."><h4>API testing</h4><p>Endpoints, payloads, status codes, contracts and backend behavior.</p></article>
+            <article class="skill-card" data-tooltip="SQL and data validation confirm that application actions create correct database state. In QA it supports business rule verification, production issue investigation and consistency checks between UI, API and stored data."><h4>SQL data validation</h4><p>Database checks, business rules, consistency and issue investigation.</p></article>
+            <article class="skill-card" data-tooltip="Defect investigation is the process of isolating root causes and proving impact. It combines reproduction steps, logs, data checks, network traces, screenshots and clear expected-versus-actual reporting."><h4>Defect investigation</h4><p>Reproduction, impact analysis, logs, data and technical evidence.</p></article>
+            <article class="skill-card" data-tooltip="Regression testing protects existing functionality after changes. It is relevant when new features, fixes, configuration changes or releases can accidentally break previously working behavior."><h4>Regression testing</h4><p>Change impact checks, release confidence and repeatable coverage.</p></article>
+            <article class="skill-card" data-tooltip="Level 2/3 technical support connects QA knowledge with real user issues. It requires troubleshooting, logs, data validation, communication, escalation and clear technical impact analysis."><h4>Level 2/3 technical support</h4><p>Production troubleshooting, user support, escalation and technical impact.</p></article>
+            <article class="skill-card" data-tooltip="CI/CD QA integration means putting automated checks into delivery pipelines. It helps teams receive fast feedback, reduce late manual validation and keep releases controlled."><h4>CI/CD QA integration</h4><p>Pipeline checks, release gates, automated feedback and repeatability.</p></article>
+            <article class="skill-card" data-tooltip="AI-assisted QA supports test design, code review, framework setup and defect analysis across JS/TS, Python, Java, C#, SQL, HTML/CSS, JSON and Bash. The value comes from using AI as acceleration while keeping QA judgment in control."><h4>AI-assisted QA</h4><p>Test design, code review, framework setup and defect analysis.</p></article>
+          </div>
+        </div>
+        <div class="stack-panel">
+          <h3>Tools I use</h3>
+          <div class="tools-grid">
+        <article class="tool-card" data-tooltip="Jira, TestRail, Xray and Azure DevOps cover structured QA delivery. I use them for defect tracking, test cases, regression matrices, requirement coverage, execution status, release reports and traceability."><h3>Jira + TestRail + Xray + ADO</h3><p>Defects, test management, traceability, reporting and release flow.</p></article>
+        <article class="tool-card" data-tooltip="Figma helps QA compare implementation with product and design intent. I use it to review UI states, spacing, flows, responsive behavior, expected copy and UX gaps before release."><h3>Figma</h3><p>Design review, UI comparison, UX gaps and expected-state checks.</p></article>
+        <article class="tool-card" data-tooltip="Visual Studio Code is the working environment for automation, scripts, CI files and debugging. It is useful for quick iteration across JavaScript, TypeScript, Python, shell scripts, configuration and test code."><h3>Visual Studio Code</h3><p>Automation coding, debugging, test generation and pipeline editing.</p></article>
+        <article class="tool-card" data-tooltip="Git and GitHub keep automation work traceable and reviewable. They support branch workflows, code review, history, project examples and cleaner collaboration around QA engineering changes."><h3>Git + GitHub</h3><p>Version control, branches, reviews, automation history and examples.</p></article>
+        <article class="tool-card" data-tooltip="Playwright is used for reliable end-to-end browser automation. In my QA workflow it supports fixtures, page objects, stable locators, API checks and CI-ready regression suites across Chromium, Firefox and WebKit."><h3>Playwright automation</h3><p>Fixtures, page objects, locators, API checks and E2E regression.</p></article>
+        <article class="tool-card" data-tooltip="GitLab CI/CD and Docker work together to make automated QA repeatable. Pipelines run the checks after code changes, while containers reduce environment drift between local, staging and runner execution."><h3>GitLab CI/CD + Docker</h3><p>Pipelines, runners, containers, scheduled suites and release gates.</p></article>
+        <article class="tool-card" data-tooltip="Postman and Swagger/OpenAPI help validate service behavior before or alongside UI testing. They are useful for exploring endpoints, checking payloads, confirming status codes and understanding API contracts."><h3>Postman + Swagger / API docs</h3><p>API contracts, REST checks, payloads, environments and debugging.</p></article>
+        <article class="tool-card" data-tooltip="SQL, MySQL and MongoDB support data-level QA validation. I use them to verify business rules, confirm persistence after UI or API actions, investigate defects and compare application behavior with stored state."><h3>SQL / MySQL / MongoDB</h3><p>Relational and document data checks, consistency and investigation.</p></article>
+        <article class="tool-card" data-tooltip="Browser DevTools, Charles Proxy and Fiddler expose what really happens at runtime. They help inspect console errors, network traffic, storage, requests, throttling, selectors and client-server defects."><h3>DevTools + Charles + Fiddler</h3><p>Runtime debugging, network inspection, throttling and issue isolation.</p></article>
+        <article class="tool-card" data-tooltip="k6 and Grafana connect performance checks with readable evidence. k6 runs scripted load scenarios and endpoint pressure checks, while Grafana helps review trends, dashboards and release risk signals."><h3>k6 + Grafana</h3><p>Load scripts, performance signals, dashboards and bottleneck discovery.</p></article>
+        <article class="tool-card" data-tooltip="OWASP ZAP supports baseline web security validation during QA. It helps catch common web risks early through proxy inspection and automated scans without replacing a full security review."><h3>OWASP ZAP</h3><p>Baseline security scans, proxy inspection and early web risk checks.</p></article>
+        <article class="tool-card" data-tooltip="Codex, Claude and Copilot help accelerate QA work when used with judgment. They support test design ideas, code review, edge-case discovery, setup help and faster defect analysis."><h3>Codex + Claude + Copilot</h3><p>AI-assisted QA, review, setup and analysis.</p></article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tools-section" id="how-i-work" aria-label="How I work">
+    <div class="tools-inner">
+      <p class="section-kicker">How I work</p>
+      <h2>Quality built through analysis, coverage, execution and feedback</h2>
+      <div class="tools-grid">
+        <article class="work-card tool-card" data-tooltip="Requirements analysis is the first quality activity. I review acceptance criteria, business rules, user flows, dependencies and ambiguity before implementation so defects are prevented early instead of found late."><h3>Requirements analysis</h3><p>Clarify acceptance criteria, business rules, dependencies and risks.</p></article>
+        <article class="work-card tool-card" data-tooltip="Test planning defines the scope, approach, priorities, environments, data, schedule and exit criteria. It keeps QA work aligned with product risk, delivery timelines and release expectations."><h3>Test planning</h3><p>Define scope, priorities, environments, data, schedule and exit criteria.</p></article>
+        <article class="work-card tool-card" data-tooltip="Test design turns requirements and risks into concrete coverage. I prepare scenarios, test cases, checklists, API checks, data combinations and edge cases that match how the product is actually used."><h3>Test design</h3><p>Create scenarios, cases, checklists, data coverage and edge cases.</p></article>
+        <article class="work-card tool-card" data-tooltip="Shift-left QA means quality work starts earlier in the delivery cycle. I participate in requirement and design review, identify testability problems and help teams reduce rework before code reaches final validation."><h3>Shift-left QA</h3><p>Review logic, UX, testability and risk before defects become expensive.</p></article>
+        <article class="work-card tool-card" data-tooltip="Test execution validates product behavior through manual, exploratory, API, data, cross-browser and regression checks. Results are tracked clearly so the team knows what passed, what failed and what remains risky."><h3>Test execution</h3><p>Run manual, exploratory, API, data, compatibility and regression checks.</p></article>
+        <article class="work-card tool-card" data-tooltip="Defect management is more than creating tickets. I isolate the problem, provide reproduction steps, expected and actual results, evidence, affected data, severity and technical impact so developers can act quickly."><h3>Defect management</h3><p>Clear reproduction, evidence, severity, impact and verification of fixes.</p></article>
+        <article class="work-card tool-card" data-tooltip="Automation is selected for stable, repeatable, high-value checks. I focus on regression flows, API contracts, critical integrations, release gates and CI feedback instead of automating everything without purpose."><h3>Automation coverage</h3><p>Automate stable regression, APIs, integrations and high-value checks.</p></article>
+        <article class="work-card tool-card" data-tooltip="Continuous improvement uses test results, production issues, logs, metrics and release feedback to improve future coverage. The goal is better risk visibility, fewer repeated defects and more reliable delivery over time."><h3>Continuous feedback</h3><p>Use results, metrics, defects and production signals to improve coverage.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer" id="contact" aria-label="Contact links">
+    <div class="footer-inner">
+      <p class="section-kicker"><span id="current-year">2026</span> Eduard Shestopalov software QA engineer</p>
+      <div class="footer-actions">
+        <a class="contact-button light-reactive" href="mailto:shedwardio@gmail.com" target="_blank" rel="noopener noreferrer" data-popup="Send email to shedwardio@gmail.com" aria-label="Email Eduard Shestopalov">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <path d="m22 6-10 7L2 6"/>
+          </svg>
+          Email
+        </a>
+        <a class="contact-button light-reactive" href="https://www.linkedin.com/in/eduard-shestopalov-3099a5106/" target="_blank" rel="noopener noreferrer" data-popup="Open LinkedIn profile" aria-label="LinkedIn profile">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+            <path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.4 8h4.2v14H.4V8zm7.3 0h4v1.9h.06c.56-1.06 1.94-2.18 3.99-2.18C20.02 7.72 21 10.53 21 14.18V22h-4.2v-6.94c0-1.66-.03-3.78-2.3-3.78-2.31 0-2.66 1.8-2.66 3.66V22H7.7V8z"/>
+          </svg>
+          LinkedIn
+        </a>
+        <a class="contact-button light-reactive" href="https://github.com/Ed-QA/ShEd_testExample_forCC" target="_blank" rel="noopener noreferrer" data-popup="Open GitHub automation example repository" aria-label="GitHub test automation example">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+            <path d="M12 .5a12 12 0 0 0-3.79 23.39c.6.11.82-.26.82-.58v-2.04c-3.34.73-4.04-1.42-4.04-1.42-.55-1.38-1.34-1.75-1.34-1.75-1.09-.74.08-.73.08-.73 1.21.09 1.85 1.24 1.85 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.31-.54-1.53.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.93.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .5z"/>
+          </svg>
+          GitHub
+        </a>
+        <a class="contact-button light-reactive" href="EduardShestopalovSQA.pdf" target="_blank" rel="noopener noreferrer" download="EduardShestopalovSQA.pdf" data-popup="Download CV as PDF" aria-label="Download Eduard Shestopalov CV PDF">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7z"/>
+            <path d="M14 2v5h5"/>
+            <path d="M12 17V9"/>
+            <path d="m8.5 12.5 3.5-3.5 3.5 3.5"/>
+          </svg>
+          cv.pdf
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="logo-modal" id="logo-modal" role="dialog" aria-modal="true" aria-labelledby="logo-modal-title" aria-hidden="true">
+    <div class="logo-modal-card">
+      <h2 id="logo-modal-title">Welcome to my CV card</h2>
+      <p>
+        Well, this is my CV card, so I hope you came here exactly for that. Otherwise, it would be a little weird. Anyway, welcome and if at any point you want to take or reuse ideas from this page, or even the whole site - be my guest, I agree. If you would like me to create a similar or totally different CV, site, or page for you, use the contact links below.
+      </p>
+      <button class="logo-modal-close light-reactive" type="button">close</button>
+    </div>
+  </div>
+
+  <script>
+    const hero = document.getElementById("point-of-view");
+    const leftContent = hero.querySelector(".side-left .content");
+    const rightContent = hero.querySelector(".side-right .content");
+    const header = document.querySelector(".site-header");
+    const backToTop = document.querySelector(".back-to-top");
+    const currentYear = document.getElementById("current-year");
+    const themeToggle = document.querySelector(".theme-toggle");
+    const whatIUse = document.getElementById("what-i-use");
+    const mobileQuery = window.matchMedia("(max-width: 768px)");
+    let currentDivider = 50;
+    let targetDivider = 50;
+    let animationFrame = null;
+    let currentStackSplit = 50;
+    let targetStackSplit = 50;
+    let stackAnimationFrame = null;
+
+    function useWebpBackgroundIfAvailable(fileName, cssVarName) {
+      const testImage = new Image();
+      testImage.onload = () => {
+        document.documentElement.style.setProperty(cssVarName, `url("${fileName}")`);
+      };
+      testImage.src = fileName;
+    }
+
+    useWebpBackgroundIfAvailable("left.webp", "--stack-left-image");
+    useWebpBackgroundIfAvailable("right.webp", "--stack-right-image");
+
+    currentYear.textContent = new Date().getFullYear();
+
+    function applyTheme(theme) {
+      const nextTheme = theme === "light" ? "light" : "dark";
+      document.body.dataset.theme = nextTheme;
+
+      if (themeToggle) {
+        const isLight = nextTheme === "light";
+        themeToggle.setAttribute("aria-pressed", String(isLight));
+        themeToggle.setAttribute("aria-label", isLight ? "Switch to dark theme" : "Switch to light theme");
+      }
+
+      try {
+        localStorage.setItem("qaHeroTheme", nextTheme);
+      } catch (error) {
+        // Local files may block storage in some browser settings.
+      }
+    }
+
+    try {
+      applyTheme(localStorage.getItem("qaHeroTheme") || "dark");
+    } catch (error) {
+      applyTheme("dark");
+    }
+
+    themeToggle?.addEventListener("click", () => {
+      applyTheme(document.body.dataset.theme === "light" ? "dark" : "light");
+    });
+
+    function getDividerRange() {
+      const heroRect = hero.getBoundingClientRect();
+      const leftRect = leftContent.getBoundingClientRect();
+      const rightRect = rightContent.getBoundingClientRect();
+      const stopGap = 18;
+
+      return {
+        left: ((leftRect.right + stopGap - heroRect.left) / heroRect.width) * 100,
+        right: ((rightRect.left - stopGap - heroRect.left) / heroRect.width) * 100,
+      };
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function animateDivider() {
+      currentDivider += (targetDivider - currentDivider) * 0.045;
+      hero.style.setProperty("--divider-x", `${currentDivider.toFixed(3)}%`);
+
+      if (Math.abs(targetDivider - currentDivider) > 0.01) {
+        animationFrame = requestAnimationFrame(animateDivider);
+      } else {
+        currentDivider = targetDivider;
+        hero.style.setProperty("--divider-x", `${currentDivider}%`);
+        animationFrame = null;
+      }
+    }
+
+    function moveDividerTo(value) {
+      targetDivider = value;
+
+      if (!animationFrame) {
+        animationFrame = requestAnimationFrame(animateDivider);
+      }
+    }
+
+    function setDividerImmediate(value) {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+        animationFrame = null;
+      }
+
+      currentDivider = value;
+      targetDivider = value;
+      hero.style.setProperty("--divider-x", `${value}%`);
+    }
+
+    function getInitialDivider() {
+      return mobileQuery.matches ? 50 : 50.5;
+    }
+
+    function setMobileDividerFromScroll() {
+      if (!mobileQuery.matches) {
+        return;
+      }
+
+      const photoWrap = hero.querySelector(".photo-wrap");
+      const rect = photoWrap.getBoundingClientRect();
+      const viewportCenter = window.innerHeight / 2;
+      const progress = clamp((viewportCenter - rect.top) / rect.height, 0, 1);
+      const dividerY = 100 - progress * 100;
+
+      hero.classList.remove("manual-active", "automation-active");
+      hero.style.setProperty("--divider-x", "50%");
+      hero.style.setProperty("--divider-y", `${dividerY.toFixed(3)}%`);
+    }
+
+    function setMode(event) {
+      if (mobileQuery.matches) {
+        hero.classList.remove("manual-active", "automation-active");
+        setMobileDividerFromScroll();
+        return;
+      }
+
+      const heroRect = hero.getBoundingClientRect();
+      const range = getDividerRange();
+      const cursorPercent = ((event.clientX - heroRect.left) / heroRect.width) * 100;
+      const oppositePercent = range.right - (cursorPercent - range.left);
+      const isLeft = event.clientX < window.innerWidth / 2;
+      hero.classList.toggle("manual-active", isLeft);
+      hero.classList.toggle("automation-active", !isLeft);
+      moveDividerTo(clamp(oppositePercent, range.left, range.right));
+    }
+
+    function resetMode() {
+      hero.classList.remove("manual-active", "automation-active");
+      setDividerImmediate(getInitialDivider());
+      hero.style.setProperty("--divider-y", "50%");
+      setMobileDividerFromScroll();
+    }
+
+    window.addEventListener("pageshow", () => {
+      resetMode();
+    });
+
+    setDividerImmediate(getInitialDivider());
+    setMobileDividerFromScroll();
+    hero.addEventListener("mousemove", setMode);
+    hero.addEventListener("mouseleave", resetMode);
+    mobileQuery.addEventListener("change", resetMode);
+    window.addEventListener("scroll", setMobileDividerFromScroll, { passive: true });
+    window.addEventListener("resize", resetMode);
+
+    function animateStackSplit() {
+      currentStackSplit += (targetStackSplit - currentStackSplit) * 0.065;
+      whatIUse.style.setProperty("--stack-split-x", `${currentStackSplit.toFixed(3)}%`);
+
+      if (Math.abs(targetStackSplit - currentStackSplit) > 0.01) {
+        stackAnimationFrame = requestAnimationFrame(animateStackSplit);
+      } else {
+        currentStackSplit = targetStackSplit;
+        whatIUse.style.setProperty("--stack-split-x", `${currentStackSplit}%`);
+        stackAnimationFrame = null;
+      }
+    }
+
+    function moveStackSplitTo(value) {
+      targetStackSplit = clamp(value, 18, 82);
+
+      if (!stackAnimationFrame) {
+        stackAnimationFrame = requestAnimationFrame(animateStackSplit);
+      }
+    }
+
+    function resetStackSplit() {
+      targetStackSplit = 50;
+
+      if (!stackAnimationFrame) {
+        stackAnimationFrame = requestAnimationFrame(animateStackSplit);
+      }
+    }
+
+    whatIUse.addEventListener("mousemove", (event) => {
+      if (mobileQuery.matches) {
+        resetStackSplit();
+        return;
+      }
+
+      const rect = whatIUse.getBoundingClientRect();
+      const cursorPercent = ((event.clientX - rect.left) / rect.width) * 100;
+      moveStackSplitTo(cursorPercent);
+    });
+
+    whatIUse.addEventListener("mouseleave", resetStackSplit);
+    mobileQuery.addEventListener("change", resetStackSplit);
+
+    function updateBackToTop() {
+      const headerBottom = header.getBoundingClientRect().bottom;
+      backToTop.classList.toggle("is-visible", headerBottom <= 0);
+    }
+
+    backToTop.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    updateBackToTop();
+    window.addEventListener("scroll", updateBackToTop, { passive: true });
+    window.addEventListener("resize", updateBackToTop);
+
+    const reactiveItems = document.querySelectorAll(".light-reactive");
+
+    function updateLightShadows(event) {
+      const isLight = document.body.dataset.theme === "light";
+      const mainShadow = isLight ? "rgba(67, 54, 36, 0.26)" : "rgba(0, 0, 0, 0.44)";
+      const glowBase = isLight ? "52, 132, 150" : "122, 217, 239";
+
+      reactiveItems.forEach((item) => {
+        const rect = item.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const shadowX = clamp((centerX - event.clientX) / 14, -18, 18);
+        const shadowY = clamp((centerY - event.clientY) / 14, -18, 18);
+        const glow = item.classList.contains("brand-logo") ? 0.24 : 0.16;
+
+        item.style.boxShadow = `
+          ${shadowX}px ${shadowY}px 34px ${mainShadow},
+          ${shadowX / 2}px ${shadowY / 2}px 22px rgba(${glowBase}, ${glow})
+        `;
+      });
+    }
+
+    window.addEventListener("pointermove", updateLightShadows, { passive: true });
+
+    const tooltip = document.createElement("div");
+    tooltip.className = "tool-tooltip";
+    document.body.appendChild(tooltip);
+
+    let tooltipTimer = null;
+
+    function typeTooltip(text) {
+      clearInterval(tooltipTimer);
+      tooltip.textContent = "";
+      let index = 0;
+
+      tooltipTimer = setInterval(() => {
+        tooltip.textContent = text.slice(0, index);
+        const activeCard = document.querySelector(".skill-card:hover, .tool-card:hover");
+
+        if (activeCard) {
+          placeTooltip(activeCard);
+        }
+
+        index += 1;
+
+        if (index > text.length) {
+          clearInterval(tooltipTimer);
+        }
+      }, 12);
+    }
+
+    function placeTooltip(card) {
+      const rect = card.getBoundingClientRect();
+      const margin = 14;
+      const tooltipWidth = Math.min(360, window.innerWidth - margin * 2);
+      const tooltipHeight = Math.min(Math.max(tooltip.offsetHeight || 36, 36), 170);
+      const centeredX = rect.left + rect.width / 2;
+      const clampedX = clamp(centeredX, margin + tooltipWidth / 2, window.innerWidth - margin - tooltipWidth / 2);
+      let top = rect.bottom + 12;
+
+      if (top + tooltipHeight > window.innerHeight - margin) {
+        top = rect.top - tooltipHeight - 12;
+      }
+
+      tooltip.style.left = `${clampedX}px`;
+      tooltip.style.top = `${Math.max(margin, top)}px`;
+    }
+
+    document.querySelectorAll(".skill-card, .tool-card").forEach((card) => {
+      card.addEventListener("mouseenter", () => {
+        tooltip.classList.add("is-visible");
+        tooltip.classList.toggle("is-skill-tooltip", card.classList.contains("skill-card"));
+        placeTooltip(card);
+        typeTooltip(card.dataset.tooltip || "");
+      });
+
+      card.addEventListener("mousemove", () => placeTooltip(card));
+
+      card.addEventListener("mouseleave", () => {
+        clearInterval(tooltipTimer);
+        tooltip.classList.remove("is-visible");
+        tooltip.classList.remove("is-skill-tooltip");
+      });
+    });
+
+    const stackCards = document.querySelectorAll("#what-i-use .skill-card, #what-i-use .tool-card");
+    let equalizeTimer = null;
+
+    function equalizeStackCards() {
+      let maxHeight = 0;
+
+      stackCards.forEach((card) => {
+        card.style.minHeight = "";
+      });
+
+      stackCards.forEach((card) => {
+        maxHeight = Math.max(maxHeight, Math.ceil(card.getBoundingClientRect().height));
+      });
+
+      stackCards.forEach((card) => {
+        card.style.minHeight = `${maxHeight}px`;
+      });
+    }
+
+    function scheduleEqualizeStackCards() {
+      clearTimeout(equalizeTimer);
+      equalizeTimer = window.setTimeout(equalizeStackCards, 80);
+    }
+
+    equalizeStackCards();
+    window.addEventListener("load", equalizeStackCards);
+    window.addEventListener("resize", scheduleEqualizeStackCards);
+
+    const logoTrigger = document.querySelector(".brand-logo");
+    const photoTrigger = document.querySelector(".photo-wrap");
+    const logoModal = document.getElementById("logo-modal");
+    const logoModalClose = document.querySelector(".logo-modal-close");
+
+    function openLogoModal() {
+      if (!logoModal || !logoModalClose) {
+        return;
+      }
+
+      logoModal.classList.add("is-open");
+      logoModal.setAttribute("aria-hidden", "false");
+      logoModalClose.focus();
+    }
+
+    function closeLogoModal() {
+      if (!logoModal) {
+        return;
+      }
+
+      logoModal.classList.remove("is-open");
+      logoModal.setAttribute("aria-hidden", "true");
+      logoTrigger?.focus();
+    }
+
+    logoTrigger?.addEventListener("click", openLogoModal);
+    photoTrigger?.addEventListener("click", openLogoModal);
+    logoTrigger?.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openLogoModal();
+      }
+    });
+
+    logoModalClose?.addEventListener("click", closeLogoModal);
+    logoModal?.addEventListener("click", (event) => {
+      if (event.target === logoModal) {
+        closeLogoModal();
+      }
+    });
+
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && logoModal?.classList.contains("is-open")) {
+        closeLogoModal();
+      }
+    });
+
+    window.addEventListener("load", () => {
+      requestAnimationFrame(openLogoModal);
+    });
+  </script>
+</body>
+</html>
