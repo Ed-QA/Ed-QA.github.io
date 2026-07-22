@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>QA split hero</title>
+  <title>Shestopalov Eduard SQA</title>
   <style>
     :root {
       --bg: #06080c;
@@ -554,8 +554,10 @@
     }
 
     .logo-modal-card {
-      width: min(560px, 100%);
-      padding: clamp(22px, 4vw, 34px);
+      width: min(92vw, 62ch);
+      max-height: calc(100vh - 44px);
+      overflow: auto;
+      padding: clamp(22px, 5vw, 38px);
       border: 1px solid var(--surface-border);
       border-radius: 8px;
       color: var(--surface-text);
@@ -570,25 +572,42 @@
     }
 
     .logo-modal-card h2 {
-      margin: 0 0 14px;
+      margin: 0 0 18px;
       color: var(--surface-title);
-      font-size: clamp(1.3rem, 3vw, 2rem);
-      line-height: 1.1;
+      font-size: clamp(1.45rem, 4.8vw, 2rem);
+      line-height: 1.08;
       text-align: center;
       text-wrap: balance;
     }
 
-    .logo-modal-card p {
+    .logo-modal-copy {
+      display: grid;
+      gap: 12px;
+    }
+
+    .logo-modal-copy p {
       margin: 0;
       color: var(--surface-muted);
-      font-size: clamp(0.96rem, 1.4vw, 1.08rem);
-      line-height: 1.6;
+      text-wrap: pretty;
+    }
+
+    .logo-modal-lead {
+      font-size: 1.08rem;
+      line-height: 1.48;
+      text-align: center;
+    }
+
+    .logo-modal-aside {
+      font-size: calc(1.08rem - 4pt);
+      line-height: 1.45;
       text-align: justify;
+      text-align-last: center;
+      hyphens: auto;
     }
 
     .logo-modal-close {
       display: block;
-      margin: 20px auto 0;
+      margin: 22px auto 0;
       min-height: 40px;
       padding: 0 18px;
       border: 1px solid var(--button-border);
@@ -607,6 +626,13 @@
       background: var(--button-hover-bg);
       transform: translateY(-1px);
       outline: none;
+    }
+
+    @media (max-width: 520px) {
+      .logo-modal-card {
+        width: min(90vw, 44ch);
+        padding: 26px 22px;
+      }
     }
 
     .site-footer {
@@ -1147,7 +1173,9 @@
       }
 
       .site-header {
-        padding: 12px 62px 12px 12px;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 10px 12px 12px;
       }
 
       .tools-section h2,
@@ -1160,33 +1188,45 @@
       }
 
       .header-nav {
-        gap: 8px;
-        justify-content: center;
+        gap: 10px;
+        justify-content: flex-start;
+        align-items: stretch;
         width: 100%;
       }
 
       .brand-logo {
-        width: 64px;
-        height: 64px;
+        width: 48px;
+        height: 48px;
       }
 
       .brand-mark {
-        flex: 1 1 100%;
-        justify-content: center;
-        gap: 10px;
+        flex: 1 1 calc(100% - 50px);
+        max-width: calc(100% - 50px);
+        justify-content: flex-start;
+        gap: 7px;
       }
 
       .brand-title {
-        font-size: 0.94rem;
+        font-size: 0.92rem;
       }
 
       .nav-links {
-        justify-content: center;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        justify-content: stretch;
         gap: 8px;
         flex: 1 1 100%;
+        width: 100%;
       }
 
-      .nav-button,
+      .nav-button {
+        width: 100%;
+        max-width: none;
+        min-height: 38px;
+        padding: 0 12px;
+        font-size: 0.82rem;
+      }
+
       .contact-button {
         flex: 1 1 calc(50% - 8px);
         max-width: calc(50% - 4px);
@@ -1222,9 +1262,16 @@
       }
 
       .theme-toggle {
+        right: 12px;
+        top: 15px;
         width: 38px;
         height: 38px;
         padding: 0;
+        transform: none;
+      }
+
+      .theme-toggle:hover {
+        transform: translateY(-1px);
       }
 
       .stack-panels {
@@ -1456,7 +1503,7 @@
   <header class="site-header" aria-label="Page navigation">
     <nav class="header-nav">
       <div class="brand-mark">
-        <img class="brand-logo light-reactive" src="logo1.webp" onerror="this.onerror=null; this.src='logo1.png';" alt="Eduard Shestopalov QA logo" role="button" tabindex="0" aria-label="Open welcome message">
+        <img class="brand-logo light-reactive" src="logo1.png" alt="Eduard Shestopalov QA logo" role="button" tabindex="0" aria-label="Open welcome message">
         <span class="brand-title">Shestopalov Eduard SQA</span>
       </div>
       <div class="nav-links">
@@ -1505,20 +1552,20 @@
         <p class="summary">
           <span><strong>Pipeline integration:</strong> Embedding automated suites into CI/CD workflows for fast code validation.</span>
           <span><strong>Framework architecture:</strong> Building reusable libraries, fixtures, and page objects for scalable execution.</span>
-          <span><strong>Script development &amp; AI generation:</strong> Writing test scripts and using AI to accelerate coverage and edge-case discovery.</span>
-          <span><strong>Cloud infrastructure orchestration:</strong> Provisioning containers and browser matrices for parallel test runs.</span>
+          <span><strong>Script development &amp; AI-assisted test design:</strong> Writing test scripts and using AI to accelerate coverage ideas and edge-case discovery.</span>
+          <span><strong>Test environment and parallel run setup:</strong> Using containers and browser matrices for repeatable automated test runs.</span>
           <span><strong>Automated execution &amp; analysis:</strong> Running large suites, triaging failures, and generating real-time dashboards.</span>
-          <span><strong>Continuous monitoring &amp; feedback:</strong> Analyzing telemetry and production signals to keep regression coverage relevant.</span>
+          <span><strong>Continuous feedback:</strong> Using test results, logs and release feedback to keep regression coverage relevant.</span>
         </p>
       </div>
     </section>
 
     <div class="photo-wrap" aria-hidden="true">
       <div class="photo-clip photo-clip-manual">
-        <img class="photo-layer photo-manual" src="image_1.webp" onerror="this.onerror=null; this.src='image_1.png';" alt="">
+        <img class="photo-layer photo-manual" src="image_1.png" alt="">
       </div>
       <div class="photo-clip photo-clip-auto">
-        <img class="photo-layer photo-auto" src="image_2.webp" onerror="this.onerror=null; this.src='image_2.png';" alt="">
+        <img class="photo-layer photo-auto" src="image_2.png" alt="">
       </div>
       <div class="center-divider" aria-hidden="true"></div>
     </div>
@@ -1558,8 +1605,8 @@
         <article class="tool-card" data-tooltip="Postman and Swagger/OpenAPI help validate service behavior before or alongside UI testing. They are useful for exploring endpoints, checking payloads, confirming status codes and understanding API contracts."><h3>Postman + Swagger / API docs</h3><p>API contracts, REST checks, payloads, environments and debugging.</p></article>
         <article class="tool-card" data-tooltip="SQL, MySQL and MongoDB support data-level QA validation. I use them to verify business rules, confirm persistence after UI or API actions, investigate defects and compare application behavior with stored state."><h3>SQL / MySQL / MongoDB</h3><p>Relational and document data checks, consistency and investigation.</p></article>
         <article class="tool-card" data-tooltip="Browser DevTools, Charles Proxy and Fiddler expose what really happens at runtime. They help inspect console errors, network traffic, storage, requests, throttling, selectors and client-server defects."><h3>DevTools + Charles + Fiddler</h3><p>Runtime debugging, network inspection, throttling and issue isolation.</p></article>
-        <article class="tool-card" data-tooltip="k6 and Grafana connect performance checks with readable evidence. k6 runs scripted load scenarios and endpoint pressure checks, while Grafana helps review trends, dashboards and release risk signals."><h3>k6 + Grafana</h3><p>Load scripts, performance signals, dashboards and bottleneck discovery.</p></article>
-        <article class="tool-card" data-tooltip="OWASP ZAP supports baseline web security validation during QA. It helps catch common web risks early through proxy inspection and automated scans without replacing a full security review."><h3>OWASP ZAP</h3><p>Baseline security scans, proxy inspection and early web risk checks.</p></article>
+        <article class="tool-card" data-tooltip="k6 and Grafana are useful for practical QA performance checks. I can use them for local or pipeline-friendly load scenarios, endpoint pressure checks and readable evidence around response time or bottleneck risks."><h3>k6 + Grafana</h3><p>Local load checks, response signals and bottleneck evidence.</p></article>
+        <article class="tool-card" data-tooltip="OWASP ZAP supports baseline web security checks in a QA workflow. It can be used locally or alongside Playwright-style test setup for proxy inspection and common web risk discovery without replacing a full security review."><h3>OWASP ZAP</h3><p>Baseline web risk checks, proxy inspection and QA security awareness.</p></article>
         <article class="tool-card" data-tooltip="Codex, Claude and Copilot help accelerate QA work when used with judgment. They support test design ideas, code review, edge-case discovery, setup help and faster defect analysis."><h3>Codex + Claude + Copilot</h3><p>AI-assisted QA, review, setup and analysis.</p></article>
           </div>
         </div>
@@ -1586,7 +1633,7 @@
 
   <footer class="site-footer" id="contact" aria-label="Contact links">
     <div class="footer-inner">
-      <p class="section-kicker footer-kicker"><img class="footer-logo" src="logo1.webp" onerror="this.onerror=null; this.src='logo1.png';" alt="" aria-hidden="true"><span><span id="current-year">2026</span> Eduard Shestopalov software QA engineer</span></p>
+      <p class="section-kicker footer-kicker"><img class="footer-logo" src="logo1.png" alt="" aria-hidden="true"><span><span id="current-year">2026</span> Eduard Shestopalov software QA engineer</span></p>
       <div class="footer-actions">
         <a class="contact-button light-reactive" href="mailto:shedwardio@gmail.com" target="_blank" rel="noopener noreferrer" data-popup="Send email to shedwardio@gmail.com" aria-label="Email Eduard Shestopalov">
           <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1623,9 +1670,10 @@
   <div class="logo-modal" id="logo-modal" role="dialog" aria-modal="true" aria-labelledby="logo-modal-title" aria-hidden="true">
     <div class="logo-modal-card">
       <h2 id="logo-modal-title">Welcome to my CV card</h2>
-      <p>
-        Well, this is my CV card, so I hope you came here exactly for that. Otherwise, it would be a little weird. Anyway, welcome and if at any point you want to take or reuse ideas from this page, or even the whole site - be my guest, I agree. If you would like me to create a similar or totally different CV, site, or page for you, use the contact links below.
-      </p>
+      <div class="logo-modal-copy">
+        <p class="logo-modal-lead">This is my CV card, so I hope you came here exactly for that and you like it!</p>
+        <p class="logo-modal-aside">(And by the way, if at any point you will want to take or reuse ideas from this page, or even the whole site at once - be my guest, I agree. Still if you would like me to create a similar or totally different CV, site, or page for you, use the contact links below.)</p>
+      </div>
       <button class="logo-modal-close light-reactive" type="button">close</button>
     </div>
   </div>
@@ -1646,17 +1694,6 @@
     let currentStackSplit = 50;
     let targetStackSplit = 50;
     let stackAnimationFrame = null;
-
-    function useWebpBackgroundIfAvailable(fileName, cssVarName) {
-      const testImage = new Image();
-      testImage.onload = () => {
-        document.documentElement.style.setProperty(cssVarName, `url("${fileName}")`);
-      };
-      testImage.src = fileName;
-    }
-
-    useWebpBackgroundIfAvailable("left.webp", "--stack-left-image");
-    useWebpBackgroundIfAvailable("right.webp", "--stack-right-image");
 
     currentYear.textContent = new Date().getFullYear();
 
